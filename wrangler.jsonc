@@ -1,24 +1,33 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "beerle",
-  "main": "src/server/index.ts",
-  "compatibility_date": "2026-01-01",
-  "assets": {
-    "directory": "./dist",
-    "binding": "ASSETS"
-  },
-  "durable_objects": {
-    "bindings": [
-      {
-        "name": "ROOMS",
-        "class_name": "BeerleRoomDO"
-      }
-    ]
-  },
-  "migrations": [
-    {
-      "tag": "v1",
-      "new_sqlite_classes": ["BeerleRoomDO"]
-    }
-  ]
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "beerle",
+	"main": "src/server/index.ts",
+	"compatibility_date": "2026-01-01",
+	"assets": {
+		"directory": "./dist",
+		"binding": "ASSETS"
+	},
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "ROOMS",
+				"class_name": "BeerleRoomDO"
+			}
+		]
+	},
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_sqlite_classes": [
+				"BeerleRoomDO"
+			]
+		}
+	],
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "beerle-db",
+			"database_id": "8fc27149-7ea8-41db-a617-ee378288aa8c"
+		}
+	]
 }

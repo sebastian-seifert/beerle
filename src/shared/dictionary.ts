@@ -474,66 +474,9 @@ const EXTENDED_BEER_TERMS = [
   'TRÜB', 'NATUR', 'QUELL', 'WÜRZE', 'GASTHOF', 'BIERGARTEN', 'OKTOBER',
 ];
 
-/**
- * Tier 2B: Standard German N-letter words (4..10 chars) so players can freely
- * probe vowels and consonants without hitting deadlocks.
- */
-const GERMAN_FILLER_WORDS = [
-  // 4 letters
-  'HAUS', 'BAUM', 'HAND', 'ZEIT', 'WELT', 'BROT', 'WEIN', 'GELD', 'KIND',
-  'LAND', 'STAD', 'BERG', 'MEER', 'WALD', 'FELD', 'LUFT', 'FEUER', 'WORT',
-  'BUCH', 'TISCH', 'GLAS', 'GOLD', 'HART', 'GUT', 'KALT', 'WARM', 'LANG',
-  'KURZ', 'HOCH', 'TIEF', 'NEU', 'ROTH', 'BLAU', 'GRÜN', 'GELB', 'HELL',
-  // 5 letters
-  'STERN', 'ABEND', 'KARTE', 'STEIN', 'KRONE', 'BAUER', 'BLUME', 'STUHL',
-  'LAMPE', 'GABEL', 'MESSER', 'TELLER', 'TASSE', 'KANNE', 'FLUSS', 'SONNE',
-  'MOND', 'REGEN', 'SCHNEE', 'STURM', 'WOLKE', 'VOGEL', 'FISCH', 'PFERD',
-  'SCHAF', 'BÄREN', 'LÖWEN', 'ADLER', 'FARBE', 'LICHT', 'NACHT', 'TAGES',
-  'WOCHE', 'MONAT', 'JAHRE', 'LEBEN', 'LIEBE', 'GLÜCK', 'TRAUM', 'KRAFT',
-  'STOLZ', 'FREUD', 'MUSIK', 'TANZE', 'SPIEL', 'KUNST', 'STADT', 'DORFE',
-  'WEGEN', 'BRÜCK', 'TURME', 'TOREN', 'MAUER', 'DACHS', 'RAUME', 'BODEN',
-  'DECKE', 'WÄNDE', 'TÜREN', 'FENST', 'SKILL', 'ULLAL',
-  // 6 letters
-  'GARTEN', 'STRAND', 'BRÜCKE', 'SCHULE', 'KIRCHE', 'TEMPEL', 'SCHIFF',
-  'WASSER', 'HIMMEL', 'DUNKEL', 'SOMMER', 'WINTER', 'HERBST', 'MORGEN',
-  'MITTAG', 'FREUND', 'BRUDER', 'MUTTER', 'TOCHTER', 'KAISER', 'PRINZE',
-  'RITTER', 'MEISTE', 'LEHRER', 'SCHÜLE', 'DOKTOR', 'BÄCKER', 'METZGE',
-  'KÖCHEN', 'KELLNER', 'WIRTEN', 'GÄSTEN', 'FEIERN', 'LACHEN', 'SINGEN',
-  'TANZEN', 'TRINKEN', 'ESSENS', 'KAUFEN', 'GEBENS', 'NEHMEN', 'SEHENS',
-  'HÖRENS', 'SAGEN', 'FRAGET', 'ANTWOR', 'DENKEN', 'WISSEN', 'GLAUBE',
-  // 7 letters
-  'STRASSE', 'FENSTER', 'SCHLOSS', 'RATHAUS', 'BAHNHOF', 'FLUGZEUG', 'FREIHEIT',
-  'HEIMAT', 'ZUKUNFT', 'VERGANG', 'GEDANKE', 'GEFÜHLE', 'SPRACHE', 'STIMMEN',
-  'ZEITUNG', 'BÜCHERN', 'SCHREIB', 'LESENDE', 'SPIELER', 'GEWINNE', 'VERLIER',
-  'MEISTER', 'CHAMPION', 'POKALEN', 'TURNIER', 'STADION', 'MANNSCH', 'VEREINE',
-  'FREUNDE', 'NACHBAR', 'FAMILIE', 'MENSCH', 'LEUTEN', 'KINDERN', 'ELTERNS',
-  // 8 letters
-  'FREUNDIN', 'GESCHICHT', 'ABENTEUER', 'URLAUBER', 'REISENDE', 'WANDERER',
-  'BERGSTEI', 'RADFAHRE', 'SCHWIMME', 'LAUFENDE', 'SPRINGEN', 'KLETTERN',
-  'TRÄUMERE', 'HOFFNUNG', 'ZUSAMMEN', 'GEMEINDE', 'NACHBARN', 'KOLLEGEN',
-  'PARTNERN', 'ARBEITER', 'STUDENTEN', 'PROFESSO', 'KÜNSTLER', 'MUSIKANT',
-  'SÄNGERIN', 'SCHAUSPI', 'REGISSEU', 'MALEREIN', 'ZEICHNER', 'BAUWERKE',
-  // 9 letters
-  'DEUTSCHLA', 'ÖSTERREIC', 'SCHWEIZER', 'BAYERISCH', 'FRÄNKISCH', 'RHEINISCH',
-  'NORDISCHE', 'SÜDLICHES', 'WESTLICHE', 'ÖSTLICHES', 'TRADITION', 'BRAUCHTUM',
-  'KULTURELL', 'GESELLSCH', 'FESTSPIEL', 'VOLKSFEST', 'JAHRMARKT', 'WEIHNACHT',
-  'OSTERTAGE', 'PFINGSTEN', 'KARNEVALS', 'FASCHINGS', 'KIRCHWEIH', 'SCHÜTZENF',
-  'STADTFEST', 'STRASSENF', 'MUSIKFEST', 'TANZFESTS', 'WEINFESTE', 'BIERFESTS',
-  // 10 letters
-  'DEUTSCHLAND', 'BRAUEREIEN', 'GASTSTÄTTE', 'WIRTSHAUS', 'BIERGÄRTEN',
-  'KELLERMEIS', 'SCHANKWIRT', 'TRINKGLAS', 'ZAPFANLAGE', 'FLASCHENBI',
-  'FASSBIEREN', 'REINHEITSG', 'HOPFENFELD', 'GERSTENMAL', 'HEFEZUCHTE',
-  'GÄRUNGSPUN', 'LAGERKELLER', 'ABFÜLLANLA', 'KRONKORKEN', 'ETIKETTIER',
-];
-
 const BEER_TERM_SET: Set<string> = new Set([
   ...DAILY_BEER_SOLUTIONS.map((b) => normalizeBeerString(b.word)),
   ...EXTENDED_BEER_TERMS.map((w) => normalizeBeerString(w)),
-]);
-
-const GERMAN_WORD_SET: Set<string> = new Set([
-  ...BEER_TERM_SET,
-  ...GERMAN_FILLER_WORDS.map((w) => normalizeBeerString(w)),
 ]);
 
 /**
@@ -547,13 +490,10 @@ export function validateGuessWord(
   if (splitGraphemes(normalizedGuess).length !== targetLength) {
     return { valid: false, isBeerTerm: false };
   }
-  if (BEER_TERM_SET.has(normalizedGuess)) {
-    return { valid: true, isBeerTerm: true };
-  }
-  if (GERMAN_WORD_SET.has(normalizedGuess)) {
-    return { valid: true, isBeerTerm: false };
-  }
-  return { valid: false, isBeerTerm: false };
+  return {
+    valid: true,
+    isBeerTerm: BEER_TERM_SET.has(normalizedGuess),
+  };
 }
 
 /**

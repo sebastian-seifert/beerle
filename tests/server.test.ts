@@ -37,7 +37,7 @@ describe('Cloudflare Worker API & D1/DO co-presence', () => {
     expect(puzzleJson.solutionMetadata).toBeUndefined();
   });
 
-  it('evaluates guesses server-side, rejects invalid words, and reveals metadata only on win/loss', async () => {
+  it('evaluates any N-letter guess server-side, rejects wrong length, and reveals metadata only on win/loss', async () => {
     const app = createServerApp();
     const tokenRes = await app.fetch(
       new Request('http://localhost/api/token', {
@@ -48,7 +48,7 @@ describe('Cloudflare Worker API & D1/DO co-presence', () => {
     );
     const { sessionJwt } = (await tokenRes.json()) as { sessionJwt: string };
 
-    // Invalid word
+    // Wrong length is rejected
     const badRes = await app.fetch(
       new Request('http://localhost/api/guess', {
         method: 'POST',
@@ -66,7 +66,26 @@ describe('Cloudflare Worker API & D1/DO co-presence', () => {
     expect(badRes.status).toBe(400);
     const badJson = (await badRes.json()) as { valid: boolean; error: string };
     expect(badJson.valid).toBe(false);
-    expect(badJson.error).toBeTruthy();
+    expect(badJson.error).toBe('Nicht genug Buchstaben');
+
+    // Arbitrary N-letter word (4 letters for 2026-11-16) is accepted
+    const anyWordRes = await app.fetch(
+      new Request('http://localhost/api/guess', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${sessionJwt}`,
+        },
+        body: JSON.stringify({
+          dateStr: '2026-11-16',
+          guess: 'ZZZZ',
+          hardMode: false,
+        }),
+      }),
+    );
+    expect(anyWordRes.status).toBe(200);
+    const anyWordJson = (await anyWordRes.json()) as { valid: boolean };
+    expect(anyWordJson.valid).toBe(true);
   });
 
   it('rate-limits /api/share to one post per user per daily puzzle', async () => {

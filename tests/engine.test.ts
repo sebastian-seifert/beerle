@@ -109,18 +109,17 @@ describe('Two-pass Wordle evaluation engine', () => {
     expect(validateHardMode('STARK', history)).toBeNull();
   });
 
-  it('validates two-tier dictionary: beer terms, German filler words, and rejects invalid words', () => {
+  it('validates two-tier dictionary: marks beer terms and accepts any valid N-letter guess', () => {
     expect(DAILY_BEER_SOLUTIONS.length).toBeGreaterThanOrEqual(40);
     // Tier 1 solution
     expect(validateGuessWord('JEVER', 5)).toEqual({ valid: true, isBeerTerm: true });
     // Tier 2A extended beer term
     expect(validateGuessWord('HOPFEN', 6)).toEqual({ valid: true, isBeerTerm: true });
-    // Tier 2B standard German word
+    // Arbitrary N-letter guess is allowed (isBeerTerm: false)
     expect(validateGuessWord('STERN', 5)).toEqual({ valid: true, isBeerTerm: false });
-    // Wrong length
+    expect(validateGuessWord('ZZZZZ', 5)).toEqual({ valid: true, isBeerTerm: false });
+    // Wrong length is still rejected
     expect(validateGuessWord('JEVER', 6)).toEqual({ valid: false, isBeerTerm: false });
-    // Nonsense
-    expect(validateGuessWord('ZZZZZ', 5)).toEqual({ valid: false, isBeerTerm: false });
   });
 
   it('computes deterministic daily puzzle index from YYYY-MM-DD UTC date', () => {
