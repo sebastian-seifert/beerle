@@ -11,7 +11,7 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "noEmit": true,
-    "types": ["vitest/globals", "@cloudflare/workers-types"]
+    "types": ["vitest/globals", "@cloudflare/workers-types", "vite/client"]
   },
   "include": ["src", "tests", "vite.config.ts", "vitest.config.ts"]
 }

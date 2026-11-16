@@ -1,0 +1,28 @@
+CREATE TABLE IF NOT EXISTS users (
+  id TEXT PRIMARY KEY,
+  username TEXT NOT NULL,
+  avatar_url TEXT,
+  played INTEGER NOT NULL DEFAULT 0,
+  wins INTEGER NOT NULL DEFAULT 0,
+  current_streak INTEGER NOT NULL DEFAULT 0,
+  max_streak INTEGER NOT NULL DEFAULT 0,
+  dist_1 INTEGER NOT NULL DEFAULT 0,
+  dist_2 INTEGER NOT NULL DEFAULT 0,
+  dist_3 INTEGER NOT NULL DEFAULT 0,
+  dist_4 INTEGER NOT NULL DEFAULT 0,
+  dist_5 INTEGER NOT NULL DEFAULT 0,
+  dist_6 INTEGER NOT NULL DEFAULT 0,
+  last_played_date TEXT,
+  last_won_date TEXT,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS daily_games (
+  user_id TEXT NOT NULL,
+  puzzle_date TEXT NOT NULL,
+  guesses_json TEXT NOT NULL DEFAULT '[]',
+  status TEXT NOT NULL DEFAULT 'playing',
+  shared INTEGER NOT NULL DEFAULT 0,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (user_id, puzzle_date)
+);
