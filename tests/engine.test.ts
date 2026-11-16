@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   evaluateGuess,
+  getDailyBeerSolution,
   getDailyPuzzleIndex,
   mergeKeyboardStates,
   validateHardMode,
@@ -128,5 +129,24 @@ describe('Two-pass Wordle evaluation engine', () => {
     expect(idx1).toBeGreaterThanOrEqual(0);
     expect(idx1).toBeLessThan(DAILY_BEER_SOLUTIONS.length);
     expect(idx2).not.toBe(idx1);
+  });
+
+  it('has a deterministic ~10% chance for the daily word to be BEER with the special funFact', () => {
+    let beerCount = 0;
+    const baseMs = Date.UTC(2026, 0, 1);
+
+    for (let i = 0; i < 100; i++) {
+      const dateStr = new Date(baseMs + i * 86_400_000).toISOString().slice(0, 10);
+      const sol = getDailyBeerSolution(dateStr);
+      // Deterministic for the same date
+      expect(getDailyBeerSolution(dateStr)).toEqual(sol);
+      if (sol.word === 'BEER') {
+        beerCount += 1;
+        expect(sol.funFact).toBe('Du musst dir heute die Kante geben!');
+      }
+    }
+
+    expect(beerCount).toBeGreaterThanOrEqual(5);
+    expect(beerCount).toBeLessThanOrEqual(18);
   });
 });

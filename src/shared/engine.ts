@@ -1,5 +1,6 @@
+import { DAILY_BEER_SOLUTIONS } from './dictionary';
 import { splitGraphemes } from './normalization';
-import type { GuessEvaluation, KeyStatus, TileStatus } from './types';
+import type { BeerMetadata, GuessEvaluation, KeyStatus, TileStatus } from './types';
 
 const KEY_PRECEDENCE: Record<KeyStatus, number> = {
   default: 0,
@@ -161,4 +162,36 @@ export function getDailyPuzzleNumber(dateStr: string): number {
   const parts = dateStr.split('-').map(Number);
   const targetMs = Date.UTC(parts[0], parts[1] - 1, parts[2]);
   return Math.floor((targetMs - epochMs) / 86_400_000) + 1;
+}
+
+const BEER_EASTER_EGG: BeerMetadata = {
+  word: 'BEER',
+  displayName: 'Beer',
+  brewery: 'Sonder-Edition',
+  origin: 'Überall',
+  style: 'Pflichtprogramm',
+  foundedYear: null,
+  abv: '∞ % vol.',
+  funFact: 'Du musst dir heute die Kante geben!',
+};
+
+function fnv1aHash(str: string): number {
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < str.length; i++) {
+    hash ^= str.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193);
+  }
+  return hash >>> 0;
+}
+
+/**
+ * Deterministically selects the daily Beerle solution for `dateStr` (`YYYY-MM-DD`).
+ * Includes a 10% chance for the special "BEER" edition.
+ */
+export function getDailyBeerSolution(dateStr: string): BeerMetadata {
+  if (fnv1aHash(dateStr) % 10 === 0) {
+    return BEER_EASTER_EGG;
+  }
+  const idx = getDailyPuzzleIndex(dateStr, DAILY_BEER_SOLUTIONS.length);
+  return DAILY_BEER_SOLUTIONS[idx];
 }

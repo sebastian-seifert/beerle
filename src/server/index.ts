@@ -1,7 +1,7 @@
-import { DAILY_BEER_SOLUTIONS, validateGuessWord } from '../shared/dictionary';
+import { validateGuessWord } from '../shared/dictionary';
 import {
   evaluateGuess,
-  getDailyPuzzleIndex,
+  getDailyBeerSolution,
   getDailyPuzzleNumber,
   validateHardMode,
 } from '../shared/engine';
@@ -377,8 +377,7 @@ export function createServerApp() {
         // 3. GET /api/puzzle
         if (url.pathname === '/api/puzzle' && request.method === 'GET') {
           const dateStr = url.searchParams.get('date') ?? getTodayUtcDateStr();
-          const idx = getDailyPuzzleIndex(dateStr, DAILY_BEER_SOLUTIONS.length);
-          const solution = DAILY_BEER_SOLUTIONS[idx];
+          const solution = getDailyBeerSolution(dateStr);
           const game = await getGame(env, session.sub, dateStr);
           const stats = await getStats(env, session.sub);
 
@@ -399,8 +398,7 @@ export function createServerApp() {
         if (url.pathname === '/api/guess' && request.method === 'POST') {
           const reqBody = (await request.json()) as GuessRequest;
           const dateStr = reqBody.dateStr || getTodayUtcDateStr();
-          const idx = getDailyPuzzleIndex(dateStr, DAILY_BEER_SOLUTIONS.length);
-          const solution = DAILY_BEER_SOLUTIONS[idx];
+          const solution = getDailyBeerSolution(dateStr);
           const targetLength = splitGraphemes(solution.word).length;
 
           const game = await getGame(env, session.sub, dateStr);

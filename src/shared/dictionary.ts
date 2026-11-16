@@ -462,7 +462,7 @@ export const DAILY_BEER_SOLUTIONS: BeerMetadata[] = [
  * Tier 2A: Extended Beer & Brewing Lexicon (rewards players with a 🍺 badge).
  */
 const EXTENDED_BEER_TERMS = [
-  'MALZ', 'HEFE', 'KRUG', 'MASS', 'BIER', 'FASS', 'SUD', 'KALT', 'ZAPF',
+  'BEER', 'MALZ', 'HEFE', 'KRUG', 'MASS', 'BIER', 'FASS', 'SUD', 'KALT', 'ZAPF',
   'HOPFEN', 'GERSTE', 'BRAUER', 'STANGE', 'KNEIPE', 'SCHAUM', 'ZAPFEN', 'BRÄU',
   'FLASCHE', 'SUDHAUS', 'KRONKORK', 'BRAUEREI', 'SCHANK', 'TRESEN', 'PROST',
   'SION', 'PETERS', 'MÜHLEN', 'ZUNFT', 'BOLTEN', 'FÜCHSCHEN', 'SCHUMACHER',
